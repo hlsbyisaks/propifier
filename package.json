@@ -6,16 +6,24 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "echarts": "^5.1.2",
+    "json-server": "^0.16.3",
+    "material-design-icons": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-api": "cd api && flask run",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test-api": "cd api && flask test",
+    "eject": "react-scripts eject",
+    "server": "json-server --watch db.json --port 5000",
+    "serverHorse": "json-server --watch csvjson.json --port 6000"
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +42,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
