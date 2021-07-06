@@ -29,26 +29,26 @@ const AddTask = ({ onAdd }) => {
             <div>
                 <div>
                     <div className='form-control'>
-                        <label>Start Sum Low</label>
-                        <input type='text' placeholder='' value={Startsum_Lowest} onChange={(e) => setStartsum_Lowest(e.target.value)} />
+                        <label>Startsumma Lägsta</label>
+                        <input type='text' placeholder='' value={Startsum_Lowest} required onChange={(e) => setStartsum_Lowest(e.target.value)} />
                     </div>
                     <div className='form-control'>
-                        <label>Start Sum High</label>
-                        <input type='text' placeholder='' value={Startsum_Highest} onChange={(e) => setStartSumHigh(e.target.value)}/>
+                        <label>Startsumma Högsta</label>
+                        <input type='text' placeholder='' value={Startsum_Highest} required onChange={(e) => setStartSumHigh(e.target.value)}/>
                     </div>
                     <div className='form-control'>
-                        <label>Minimum Age</label>
-                        <input type='text' placeholder='' value={Age_Lowest} onChange={(e) => setAgeLow(e.target.value)} />
+                        <label>Ålder Lägsta</label>
+                        <input type='text' placeholder='' value={Age_Lowest} required onChange={(e) => setAgeLow(e.target.value)} />
                     </div>
                     <div className='form-control'>
-                        <label>Maximum Age</label>
-                        <input type='text' placeholder='' value={Age_Highest} onChange={(e) => setAgeHigh(e.target.value)}/>
+                        <label>Ålder Högsta</label>
+                        <input type='text' placeholder='' value={Age_Highest} required onChange={(e) => setAgeHigh(e.target.value)}/>
                     </div>
                 </div>
                 <div>
                 <div className='form-control'>
-                    <label>Distance</label>
-                    <select name='Distance' placeholder='' value={Distance} onChange={(e) => setDistance(e.target.value)}>
+                    <label>Sträcka</label>
+                    <select name='Distance' placeholder='' value={Distance} required onChange={(e) => setDistance(e.target.value)}>
                         <option value='1640'>1640m</option>
                         <option value='2140'>2140m</option>
                         <option value='2640'>2640m</option>
@@ -56,7 +56,7 @@ const AddTask = ({ onAdd }) => {
                     </select>
                 </div>
                     <div className='form-control'>
-                        <label>Starting Type</label>
+                        <label>Starttyp</label>
                         <select name='Starttype' placeholder='' value={Start_Type} onChange={(e) => setStartType(e.target.value)}>
                             <option value='0'>Unspecified</option>
                             <option value='1'>Voltstart</option>
@@ -64,11 +64,11 @@ const AddTask = ({ onAdd }) => {
                         </select>
                     </div>
                     <div className='form-control'>
-                        <label>First Price</label>
-                        <input type='text' placeholder='' value={First_Price} onChange={(e) => setFirstPrice(e.target.value)} />
+                        <label>Föstapris</label>
+                        <input type='text' placeholder='' value={First_Price} required onChange={(e) => setFirstPrice(e.target.value)} />
                     </div>
                     <div className='form-control form-control-check'>
-                        <label>Mare Only</label>
+                        <label>Stolopp</label>
                         <input 
                         type='checkbox'
                         checked={Mare}
@@ -76,7 +76,7 @@ const AddTask = ({ onAdd }) => {
                         onChange={(e) => setGenderHorse(e.currentTarget.checked)}/>
                     </div>
                     <div className='form-control form-control-check'>
-                        <label>Addition</label>
+                        <label>Tillägg</label>
                         <input 
                         type='checkbox'
                         checked={Addition}
@@ -85,7 +85,7 @@ const AddTask = ({ onAdd }) => {
                     </div>
                 </div>
             </div>
-            <input className ='btn btn-block' type='submit' value='Submit'></input>
+            <input className ='btn btn-block' type='submit' value='Skicka'></input>
         </form>
     )
 }

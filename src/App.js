@@ -94,6 +94,26 @@ function App() {
     ? { ...task, reminder: !task.reminder } : task))
   } 
 
+  //Update Applicant Threshold
+    //Add Task
+    const setApplicantThreshold = async (task) => {
+      console.log(JSON.stringify(task))
+  
+      const res = await fetch('http://localhost:4000/setApplicantThreshold', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(res)
+      })
+
+      const data = await res.json()
+
+    const dataCheckProp = await res.json()
+    console.log(data)
+
+    }
+
   return (
     <div className="container">
       <svg x="0px" y="0px" viewBox="0 0 910 210" preserveAspectRatio="none" className="background_svg">
@@ -102,7 +122,7 @@ function App() {
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} 
               onStats={() => setShowStats(!showStats)} showStats={showStats}/>
       {showStats && <Stats/>}
-      {showAddTask && <SetThreshold onAdd={addTask}/>}
+      {showAddTask && <SetThreshold onAdd={setApplicantThreshold}/>}
       {showAddTask && <AddTask onAdd={addTask}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'No props to show'}
     </div>

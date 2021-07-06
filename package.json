@@ -17,12 +17,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd api && flask run",
+    "start-api": "cd api && python app.py",
+    "server": "json-server --watch db.json --port 5000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test-api": "cd api && flask test",
     "eject": "react-scripts eject",
-    "server": "json-server --watch db.json --port 5000",
     "serverHorse": "json-server --watch csvjson.json --port 6000"
   },
   "eslintConfig": {

@@ -16,7 +16,7 @@ const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
             onClick={onStats} /> */}
             <Button 
             color={showAdd ? '#aa5763' : '#5886ac'} 
-            text={showAdd ? 'Close' : 'Add'} 
+            text={showAdd ? 'Stäng' : 'Lägg till'} 
             onClick={ onAdd } />
         </header>
     )
