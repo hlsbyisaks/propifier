@@ -1,52 +1,40 @@
 {
   "tasks": [
     {
-      "Startsum_Lowest": "123",
-      "Startsum_Highest": "123",
+      "Startsum_Lowest": "2001",
+      "Startsum_Highest": "20000",
       "Age_Lowest": "3",
       "Age_Highest": "7",
-      "Distance": "2140",
+      "Distance": "1640",
       "Start_Type": "1",
-      "Mare": false,
+      "Mare": true,
       "Addition": false,
-      "First_Price": "70000",
+      "First_Price": "30000",
       "id": 1
     },
     {
-      "Startsum_Lowest": "10001",
-      "Startsum_Highest": "100000",
-      "Age_Lowest": "3",
+      "Startsum_Lowest": "2001",
+      "Startsum_Highest": "20000",
+      "Age_Lowest": "5",
       "Age_Highest": "7",
       "Distance": "2140",
-      "Start_Type": "1",
+      "Start_Type": "2",
       "Mare": false,
-      "Addition": false,
-      "First_Price": "70000",
+      "Addition": true,
+      "First_Price": "50000",
       "id": 2
     },
     {
-      "Startsum_Lowest": "10001",
-      "Startsum_Highest": "100000",
-      "Age_Lowest": "3",
-      "Age_Highest": "10",
+      "Startsum_Lowest": "20001",
+      "Startsum_Highest": "60000",
+      "Age_Lowest": "5",
+      "Age_Highest": "7",
       "Distance": "2140",
-      "Start_Type": "1",
-      "Mare": false,
-      "Addition": false,
-      "First_Price": "70000",
-      "id": 3
-    },
-    {
-      "Startsum_Lowest": "0",
-      "Startsum_Highest": "10000000",
-      "Age_Lowest": "3",
-      "Age_Highest": "12",
-      "Distance": "2640",
       "Start_Type": "2",
       "Mare": false,
-      "Addition": false,
-      "First_Price": "1000000",
-      "id": 4
+      "Addition": true,
+      "First_Price": "60000",
+      "id": 3
     }
   ]
 }

@@ -74,7 +74,7 @@ function App() {
     data['predictApplicants'] = dataApplicants.prediction[0]
     console.log(data)
 
-    setTasks([...tasks, data])
+    setTasks([data, ...tasks])
   }
 
   //Delete Task
@@ -116,15 +116,16 @@ function App() {
 
   return (
     <div className="container">
-      <svg x="0px" y="0px" viewBox="0 0 910 210" preserveAspectRatio="none" className="background_svg">
+      {/* <svg x="0px" y="0px" viewBox="0 0 910 210" preserveAspectRatio="none" className="background_svg">
         <path d ="M0,0c270.6,0,298.2,209.9,454,209.9s183.4-209.9,454-209.9z"></path>
-      </svg>
+      </svg> */}
+      <div className='ill_horse' alt='horse illustration'></div>
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} 
               onStats={() => setShowStats(!showStats)} showStats={showStats}/>
       {showStats && <Stats/>}
       {showAddTask && <SetThreshold onAdd={setApplicantThreshold}/>}
       {showAddTask && <AddTask onAdd={addTask}/>}
-      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'No props to show'}
+      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'Inga proppar att visa'}
     </div>
   );
 }

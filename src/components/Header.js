@@ -5,7 +5,6 @@ import Button from './Button'
 const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
     return (
         <header className='header'>
-            <div className='loading' alt='horse animation'></div>
             <h1 className='font-effect-anaglyph'>
                 <div class="material-icons">model_training</div>
                 {title}
@@ -24,7 +23,7 @@ const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
 
 Header.defaultProps = {
     title: 'Propifier'
-  }
+}
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
