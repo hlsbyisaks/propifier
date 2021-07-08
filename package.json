@@ -13,17 +13,18 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "react-tooltip": "^4.2.21",
+    "react-tooltips": "^0.4.6",
+    "web-vitals": "^1.1.2",
+    "concurrently": "^6.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "start-api": "cd api && python app.py",
     "server": "json-server --watch db.json --port 5000",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test-api": "cd api && flask test",
     "eject": "react-scripts eject",
-    "serverHorse": "json-server --watch csvjson.json --port 6000"
+    "dev": "concurrently \"npm start\" \"npm run start-api\" \"npm run server\""
   },
   "eslintConfig": {
     "extends": [
@@ -43,5 +44,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  }
 }

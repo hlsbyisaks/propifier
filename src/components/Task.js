@@ -1,6 +1,7 @@
 import { FaTimes } from 'react-icons/fa'
 import { BsCheck } from 'react-icons/bs'
 import { GiTrophyCup } from 'react-icons/gi'
+import ReactTooltip from 'react-tooltip'
 import { useState } from 'react'
 
 const Task = ({ task, onDelete, onToggle }) => {
@@ -19,19 +20,24 @@ const Task = ({ task, onDelete, onToggle }) => {
     return (
         <div className={`task ${task.reminder ?
         'reminder' : ''}`} onDoubleClick={() => onToggle(task.id)}>
-            <h3>Jägersro Proposition# {year + "-" + month + "-" + day}<FaTimes onClick={() => onDelete(task.id)} style ={{color: 'rgb(104, 111, 109)', cursor: 'pointer'}}/></h3>
+            <h3>Proposition #{task.id} {year + "-" + month + "-" + day}<FaTimes onClick={() => onDelete(task.id)} style ={{color: 'rgb(104, 111, 109)', cursor: 'pointer'}}/></h3>
             <div>
                 
-                    <p>{ task.Startsum_Lowest }-{ task.Startsum_Highest }:- </p>
-                    <p>{ task.Age_Lowest}-{task.Age_Highest} år</p>
-                    <p>{ task.Distance }m { Start_Type }</p>
-                    <p><GiTrophyCup></GiTrophyCup> <br></br>{task.First_Price}:-</p>
-                
-                
-                    <p>{ task.Mare ? 'Stolopp' : '' }{ task.Mare && task.Addition ? ', ' : ''}{ task.Addition ? 'Tillägg' : ''} </p>
-                    <p>Prel. anm.: { task.predictApplicants }</p>
-                    <p>{ task.predict ? <BsCheck style ={{color: 'green'}}></BsCheck> : <BsCheck style ={{color: 'red'}}></BsCheck>}</p>
-                
+                <p data-tip='Startsumma' data-type='info' data-effect='solid'>{ task.Startsum_Lowest }-{ task.Startsum_Highest }:- </p>
+                <ReactTooltip />
+                <p data-tip='Ålder' data-type='info' data-effect='solid'>{ task.Age_Lowest}-{task.Age_Highest} år</p>
+                <ReactTooltip />
+                <p data-tip='Sträcka & Starttyp' data-type='info' data-effect='solid'>{ task.Distance }m { Start_Type }</p>
+                <ReactTooltip />
+                <p data-tip='Förstapris' data-type='info' data-effect='solid'><GiTrophyCup></GiTrophyCup> <br></br>{task.First_Price}:-</p>
+                <ReactTooltip />
+                <p data-tip='Loppkriterier' data-type='info' data-effect='solid'>{ task.Mare ? 'Stolopp' : '' }{ task.Mare && task.Addition ? ', ' : ''}{ task.Addition ? 'Tillägg' : ''} </p>
+                <ReactTooltip />
+                <p data-tip='Preliminärt antal anmälningar' data-type='info' data-effect='solid'>{ task.predictApplicants }</p>
+                <ReactTooltip />
+                <p data-tip='Grön = bra, röd = dålig. Baserat på antal anmälningar' data-type='info' data-effect='solid'>{ task.predict ? <BsCheck style ={{color: 'green'}}></BsCheck> : <BsCheck style ={{color: 'red'}}></BsCheck>}</p>
+                <ReactTooltip />
+                    
             </div>
         </div>
     )

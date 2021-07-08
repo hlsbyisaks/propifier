@@ -1,4 +1,4 @@
-1. Öppna 3 terminaler
-2. npm start
-3. npm run server
-4. cd api && python app.py
+1. Install node
+2. Open terminal
+3. In terminal: "npm install dependencies"
+4. "npm run dev"

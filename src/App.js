@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
   const [showStats, setShowStats] = useState(false)
-
+  const [threshold, displayThreshold] = useState('11')
   const [tasks, setTasks] = useState([])
 
 
@@ -95,24 +95,22 @@ function App() {
   } 
 
   //Update Applicant Threshold
-    //Add Task
-    const setApplicantThreshold = async (task) => {
-      console.log(JSON.stringify(task))
-  
-      const res = await fetch('http://localhost:4000/setApplicantThreshold', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(res)
-      })
+  const setApplicantThreshold = async (input) => {
+    console.log(JSON.stringify(input))
 
-      const data = await res.json()
+    const res = await fetch('http://localhost:4000/update', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(input)
+    })
 
-    const dataCheckProp = await res.json()
+    const data = await res.json()
+    displayThreshold(data.Antal)
     console.log(data)
 
-    }
+  }
 
   return (
     <div className="container">
@@ -123,9 +121,9 @@ function App() {
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} 
               onStats={() => setShowStats(!showStats)} showStats={showStats}/>
       {showStats && <Stats/>}
-      {showAddTask && <SetThreshold onAdd={setApplicantThreshold}/>}
+      {showAddTask && <SetThreshold threshold={threshold} onSetApplicantThreshold={setApplicantThreshold} />}
       {showAddTask && <AddTask onAdd={addTask}/>}
-      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'Inga proppar att visa'}
+      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'Inga propositioner att visa'}
     </div>
   );
 }

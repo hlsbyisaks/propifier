@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import Button from './Button'
+import { FaTrademark } from 'react-icons/fa'
 
 
 const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
@@ -8,6 +9,7 @@ const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
             <h1 className='font-effect-anaglyph'>
                 <div class="material-icons">model_training</div>
                 {title}
+                <FaTrademark className='tm'></FaTrademark>
             </h1>
             {/* <Button 
             color={showStats ? 'red' : '#005ca9'} 
