@@ -1,3 +1,28 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "Startsum_Lowest": "0",
+      "Startsum_Highest": "100000",
+      "Age_Lowest": "3",
+      "Age_Highest": "9",
+      "Distance": "2140",
+      "Start_Type": "2",
+      "Mare": false,
+      "Addition": false,
+      "First_Price": "70000",
+      "id": 1
+    },
+    {
+      "Startsum_Lowest": "0",
+      "Startsum_Highest": "100000",
+      "Age_Lowest": "3",
+      "Age_Highest": "9",
+      "Distance": "2140",
+      "Start_Type": "2",
+      "Mare": true,
+      "Addition": false,
+      "First_Price": "70000",
+      "id": 2
+    }
+  ]
 }

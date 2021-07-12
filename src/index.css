@@ -27,6 +27,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   background-color: var(--body_background);
   color: var(--font_color);
+  background-image: url(./images/Repeating-Triangles.svg);
   background-image: url(./images/Pattern-Randomized.svg);
   
   /* Hide scrollbar for IE, Edge and Firefox */
