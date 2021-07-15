@@ -30,19 +30,19 @@ const AddTask = ({ onAdd }) => {
                 <div>
                     <div className='form-control'>
                         <label>Startsumma Lägsta</label>
-                        <input type='text' placeholder='' value={Startsum_Lowest} required onChange={(e) => setStartsum_Lowest(e.target.value)} />
+                        <input type='number' placeholder='' value={Startsum_Lowest} required onChange={(e) => setStartsum_Lowest(e.target.value)} />
                     </div>
                     <div className='form-control'>
                         <label>Startsumma Högsta</label>
-                        <input type='text' placeholder='' value={Startsum_Highest} required onChange={(e) => setStartSumHigh(e.target.value)}/>
+                        <input type='number' placeholder='' value={Startsum_Highest} required onChange={(e) => setStartSumHigh(e.target.value)}/>
                     </div>
                     <div className='form-control'>
                         <label>Ålder Lägsta</label>
-                        <input type='text' placeholder='' value={Age_Lowest} required onChange={(e) => setAgeLow(e.target.value)} />
+                        <input type='number' placeholder='' value={Age_Lowest} required onChange={(e) => setAgeLow(e.target.value)} />
                     </div>
                     <div className='form-control'>
                         <label>Ålder Högsta</label>
-                        <input type='text' placeholder='' value={Age_Highest} required onChange={(e) => setAgeHigh(e.target.value)}/>
+                        <input type='number' placeholder='' value={Age_Highest} required onChange={(e) => setAgeHigh(e.target.value)}/>
                     </div>
                 </div>
                 <div>
@@ -64,8 +64,8 @@ const AddTask = ({ onAdd }) => {
                         </select>
                     </div>
                     <div className='form-control'>
-                        <label>Föstapris</label>
-                        <input type='text' placeholder='' value={First_Price} required onChange={(e) => setFirstPrice(e.target.value)} />
+                        <label>Förstapris</label>
+                        <input type='number' placeholder='' value={First_Price} required onChange={(e) => setFirstPrice(e.target.value)} />
                     </div>
                     <div className='form-control form-control-check'>
                         <label>Stolopp</label>

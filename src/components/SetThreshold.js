@@ -15,7 +15,7 @@ const SetThreshold = ({ onSetApplicantThreshold, threshold }) => {
             <div className='form-control threshold'>           
                 <div>
                     <label>Ändra gränsvärde</label>
-                    <input type='number' placeholder={threshold} value={Applicant_Threshold} required onChange={(e) => setApplicantThreshold(e.target.value)}/>
+                    <input id='thresholdInput' type='number' placeholder={threshold} value={Applicant_Threshold} required onChange={(e) => setApplicantThreshold(e.target.value)}/>
                 </div>
             </div>
             <input id='btn' className ='btn btn-block' type='submit' value='Ändra'></input>

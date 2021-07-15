@@ -1,5 +1,4 @@
 import Task from './Task'
-import { AiOutlineInfoCircle } from 'react-icons/ai'
 
 const Tasks = ({ tasks, onDelete, onToggle }) => {
     return (

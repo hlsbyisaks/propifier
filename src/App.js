@@ -1,13 +1,11 @@
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
-import Stats from './components/showStats'
 import SetThreshold from './components/SetThreshold'
 import { useState, useEffect } from "react"
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
-  const [showStats, setShowStats] = useState(false)
   const [threshold, displayThreshold] = useState('11')
   const [tasks, setTasks] = useState([])
 
@@ -92,10 +90,17 @@ function App() {
 
     setTasks(tasks.map((task) => task.id === id 
     ? { ...task, reminder: !task.reminder } : task))
-  } 
+  }
 
+  
   //Update Applicant Threshold
   const setApplicantThreshold = async (input) => {
+    //Get data from DB
+    const resDB = await fetch('http://localhost:4000/getdbdata')
+    const dataDB = await resDB
+    console.log(dataDB)
+    
+    //Update model with new applicant threshold
     console.log(JSON.stringify(input))
 
     const res = await fetch('http://localhost:4000/update', {
@@ -114,16 +119,11 @@ function App() {
 
   return (
     <div className="container">
-      {/* <svg x="0px" y="0px" viewBox="0 0 910 210" preserveAspectRatio="none" className="background_svg">
-        <path d ="M0,0c270.6,0,298.2,209.9,454,209.9s183.4-209.9,454-209.9z"></path>
-      </svg> */}
       <div className='ill_horse' alt='horse illustration'></div>
-      <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask} 
-              onStats={() => setShowStats(!showStats)} showStats={showStats}/>
-      {showStats && <Stats/>}
+      <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
       {showAddTask && <SetThreshold threshold={threshold} onSetApplicantThreshold={setApplicantThreshold} />}
       {showAddTask && <AddTask onAdd={addTask}/>}
-      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'Inga propositioner att visa'}
+      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'Det finns inga propositioner att visa.'}
     </div>
   );
 }

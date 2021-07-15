@@ -2,7 +2,7 @@
 """
 Created on Wed Jun 30 09:08:39 2021
 
-@author: axelh
+@author: !axelh isak++
 """
 
 # Import libraries
@@ -13,9 +13,32 @@ from sklearn import metrics
 import joblib
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from sqlalchemy.sql.selectable import Select
+from models import db, model_name
+import csv
 
 app = Flask(__name__)
 CORS(app)
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Yussuf10@localhost:5432/ModelData"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+ 
+db.init_app(app)
+migrate = Migrate(app, db)
+
+#Load db
+@app.route('/getdbdata', methods = ['GET'])
+@cross_origin()
+def getdata(): 
+    output = model_name.query.all()
+    writer = csv.writer(open("out.csv", 'w'))
+    for res in output:
+        writer.writerow([res])
+
+    return 'Done writing csv'
 
 #Good/bad prop classifier
 @app.route('/predict', methods = ['POST'])
@@ -45,10 +68,9 @@ def predictapplicants():
 def update():
     threshold = request.json
     threshold = int(threshold['Applicant_Threshold'])
-    print(threshold)
-    print (type(threshold))
+    print('New threshold: ', threshold)
     
-    csv = pd.read_csv('PropDataApplicants.csv',header = None, sep = ",", index_col = None)
+    csv = pd.read_csv('out.csv',header = None, sep = ":", index_col = None)
     csv.columns = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop']
 
     for i in range(len(csv)) :
@@ -74,7 +96,6 @@ def update():
     feature_cols = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Addition', 'First_Price']
     X = props[feature_cols] #Feature variables
     y = props.Good_Prop # The Target variable
-    joblib.dump(feature_cols, 'featureCols.pkl')
 
     # Split train and test data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=1) # 90% training and 10% test
@@ -88,7 +109,6 @@ def update():
     print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
 
     joblib.dump(classifier, 'model.pkl')
-    print('asd')
     return jsonify({'Antal' : threshold})
 
 if __name__ == '__main__':
