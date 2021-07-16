@@ -36,7 +36,6 @@ function App() {
 
   //Add Task
   const addTask = async (task) => {
-    console.log(JSON.stringify(task))
     const res = await fetch('/Tasks', {
       method: 'POST',
       headers: {

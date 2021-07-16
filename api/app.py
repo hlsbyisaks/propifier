@@ -16,7 +16,8 @@ from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy.sql.selectable import Select
-from models import db, model_name
+from models import db, model_props
+from models import db, model_horse
 import csv
 
 app = Flask(__name__)
@@ -29,11 +30,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 migrate = Migrate(app, db)
 
+#Load horses from db
+@app.route('/gethorsedata', methods = ['POST'])
+@cross_origin()
+def gethorsedata():
+    _json = request.json
+    
+    output = model_horse.query.all()
+    for res in output:
+        if res.startsumma > _json['Startsum_Low'] and res.startsumma < _json['Startsum_High'] and res.ålder > _json['Age_Low'] and res.ålder < _json['Age_High'] and res.kön == 's' and _json['Gender'] == 1:
+            print(res)
+        elif res.startsumma > _json['Startsum_Low'] and res.startsumma < _json['Startsum_High'] and res.ålder > _json['Age_Low'] and res.ålder < _json['Age_High'] and _json['Gender'] == 0 and res.kön == 'v' or res.kön == 'h':
+            print(res)
+    
+    return 'Done getting horses'
+
 #Load db
 @app.route('/getdbdata', methods = ['GET'])
 @cross_origin()
 def getdata(): 
-    output = model_name.query.all()
+    output = model_props.query.all()
     writer = csv.writer(open("out.csv", 'w'))
     for res in output:
         writer.writerow([res])

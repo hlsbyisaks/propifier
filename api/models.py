@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
  
 db = SQLAlchemy()
  
-class model_name(db.Model):
+class model_props(db.Model):
     __tablename__ = 'model1'
     id = db.Column(db.Integer, primary_key=True)
     startsum_low = db.Column(db.Integer)
@@ -32,3 +32,30 @@ class model_name(db.Model):
  
     def __repr__(self):
         return f"{self.startsum_low}:{self.startsum_high}:{self.age_low}:{self.age_high}:{self.distance}:{self.starttype}:{self.gender}:{self.addition}:{self.applicants}:{self.first_price}:{self.good_prop}"
+
+class model_horse(db.Model):
+    __tablename__ = 'horse'
+    id = db.Column(db.Integer, primary_key=True)
+    startsumma = db.Column(db.Integer)
+    häst = db.Column(db.String(50))
+    startpoäng = db.Column(db.Integer)
+    ålder = db.Column(db.Integer)
+    kön = db.Column(db.String(1))
+    tränare = db.Column(db.String(50))
+    tränarkön = db.Column(db.Integer)
+    tjänat_innev_år = db.Column(db.Integer)
+    proffs_amatör = db.Column(db.Integer)
+ 
+    def __init__(self, startsumma, häst, startpoäng, ålder, kön, tränare, tränarkön, tjänat_innev_år, proffs_amatör):
+        self.startsumma = startsumma
+        self.häst = häst
+        self.startpoäng = startpoäng
+        self.ålder = ålder
+        self.kön = kön
+        self.tränare = tränare
+        self.tränarkön = tränarkön
+        self.tjänat_innev_år = tjänat_innev_år
+        self.proffs_amatör = proffs_amatör
+ 
+    def __repr__(self):
+        return f"{self.startsumma}:{self.häst}:{self.startpoäng}:{self.ålder}:{self.kön}:{self.tränare}:{self.tränarkön}:{self.tjänat_innev_år}:{self.proffs_amatör}"

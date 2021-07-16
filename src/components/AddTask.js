@@ -38,11 +38,11 @@ const AddTask = ({ onAdd }) => {
                     </div>
                     <div className='form-control'>
                         <label>Ålder Lägsta</label>
-                        <input type='number' placeholder='' value={Age_Lowest} required onChange={(e) => setAgeLow(e.target.value)} />
+                        <input type='number' placeholder='' min='0' value={Age_Lowest} required onChange={(e) => setAgeLow(e.target.value)} />
                     </div>
                     <div className='form-control'>
                         <label>Ålder Högsta</label>
-                        <input type='number' placeholder='' value={Age_Highest} required onChange={(e) => setAgeHigh(e.target.value)}/>
+                        <input type='number' placeholder='' max='12' value={Age_Highest} required onChange={(e) => setAgeHigh(e.target.value)}/>
                     </div>
                 </div>
                 <div>
