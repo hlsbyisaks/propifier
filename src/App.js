@@ -2,19 +2,46 @@ import Header from './components/Header'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import SetThreshold from './components/SetThreshold'
+import Popup from './components/Popup'
 import { useState, useEffect } from "react"
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
   const [threshold, displayThreshold] = useState('11')
+  const [horseList, setHorseList] = useState(true)
   const [tasks, setTasks] = useState([])
+  const [horses, setHorses] = useState([])
 
 
-   useEffect(() => {
+  // Fetch suitable horses
+  const fetchHorses = async (id) => {
+
+    const res1 = await fetchTask(id)
+
+    const res = await fetch('http://localhost:4000/gethorsedata', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(res1)
+    })
+    const data = await res.json()
+    var horseSplit = []
+    data.horses.map((horse) => (
+      horseSplit.push(horse.split(':'))
+    ))
+    console.log(horseSplit)
+
+    //console.log(JSON.stringify(task))
+    //setHorses([data.horses])
+    setHorses([horseSplit])
+  }
+
+  useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks()
       setTasks(tasksFromServer)
- }
+    }
     getTasks()
   }, [])
 
@@ -28,21 +55,15 @@ function App() {
 
   // Fetch Task
   const fetchTask = async (id) => {
-    const res = await fetch(`/Tasks${id}`)
+    const res = await fetch(`/Tasks/${id}`)
     const data = await res.json()
-
+    console.log(data)
     return data
   }
 
   //Add Task
   const addTask = async (task) => {
-    const res = await fetch('/Tasks', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(task)
-    })
+    
 
     let resArr = []
     resArr.push(task)
@@ -63,13 +84,31 @@ function App() {
       body: JSON.stringify(resArr)
     })
 
-    const data = await res.json()
+    const resApplicantsFemale = await fetch('http://localhost:4000/predictApplicantsFemale', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(resArr)
+    })
 
+    let data = task
     const dataCheckProp = await resCheckProp.json()
     const dataApplicants = await resApplicants.json()
+    const dataApplicantsFemale = await resApplicantsFemale.json()
     data['predict'] = dataCheckProp.prediction[0]
     data['predictApplicants'] = dataApplicants.prediction[0]
-    console.log(data)
+    data['predictApplicantsFemale'] = dataApplicantsFemale.prediction[0]
+
+    const res = await fetch('/Tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+
+    data = await res.json()
 
     setTasks([data, ...tasks])
   }
@@ -120,9 +159,10 @@ function App() {
     <div className="container">
       <div className='ill_horse' alt='horse illustration'></div>
       <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
+      {horses.length > 0 ? <Popup horses={horses} onSetHorses={setHorses} onShowHorses={fetchHorses}/> : ''}
       {showAddTask && <SetThreshold threshold={threshold} onSetApplicantThreshold={setApplicantThreshold} />}
       {showAddTask && <AddTask onAdd={addTask}/>}
-      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} /> : 'Det finns inga propositioner att visa.'}
+      {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} onShowHorses={fetchHorses}/> : 'Det finns inga propositioner att visa.'}
     </div>
   );
 }

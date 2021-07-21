@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+// Form to add a new prop
 const AddTask = ({ onAdd }) => {
     const [Startsum_Lowest, setStartsum_Lowest] = useState('')
     const [Startsum_Highest, setStartSumHigh] = useState('')

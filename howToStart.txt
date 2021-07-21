@@ -1,4 +1,0 @@
-1. Install node
-2. Open terminal
-3. In terminal: "npm install dependencies"
-4. "npm run dev"

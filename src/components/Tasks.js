@@ -1,11 +1,11 @@
 import Task from './Task'
 
-const Tasks = ({ tasks, onDelete, onToggle }) => {
+// Container of multiple tasks
+const Tasks = ({ tasks, onDelete, onToggle, onShowHorses }) => {
     return (
         <>
-          {/* <AiOutlineInfoCircle cursor='pointer'></AiOutlineInfoCircle> */}
           {tasks.map((task) => (
-          <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} />
+            <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} onShowHorses={onShowHorses} />
           ))}  
         </>
     )

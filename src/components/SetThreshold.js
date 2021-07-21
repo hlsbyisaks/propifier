@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+// Input to change threshold and retrain model
 const SetThreshold = ({ onSetApplicantThreshold, threshold }) => {
 
     const [Applicant_Threshold, setApplicantThreshold] = useState('')

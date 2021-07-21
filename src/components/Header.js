@@ -6,15 +6,12 @@ import { FaTrademark } from 'react-icons/fa'
 const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
     return (
         <header className='header'>
-            <h1 className='font-effect-anaglyph'>
+            <div className='logo'></div>
+            {/* <h1 className='font-effect-anaglyph'>
                 <div class="material-icons">model_training</div>
                 {title}
-                <FaTrademark className='tm'></FaTrademark>
-            </h1>
-            {/* <Button 
-            color={showStats ? 'red' : '#005ca9'} 
-            text={showStats ? 'Close' : 'Stats'} 
-            onClick={onStats} /> */}
+                <FaTrademark className='tm'></FaTrademark>  
+            </h1> */}
             <Button 
             color={showAdd ? '#aa5763' : '#5886ac'} 
             text={showAdd ? 'Stäng' : 'Lägg till'} 
@@ -30,11 +27,5 @@ Header.defaultProps = {
 Header.propTypes = {
     title: PropTypes.string.isRequired,
 }
-
-// CSS in JS
-/* const headingStyle = {
-    color: 'red',
-    backgroundColor: 'black'
-} */
 
 export default Header

@@ -1,3 +1,64 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "Startsum_Lowest": "100",
+      "Startsum_Highest": "100000",
+      "Age_Lowest": "3",
+      "Age_Highest": "8",
+      "Distance": "2140",
+      "Start_Type": "2",
+      "Mare": false,
+      "Addition": false,
+      "First_Price": "1",
+      "predict": 0,
+      "predictApplicants": 2,
+      "predictApplicantsFemale": 1,
+      "id": 13
+    },
+    {
+      "Startsum_Lowest": "100",
+      "Startsum_Highest": "100000",
+      "Age_Lowest": "3",
+      "Age_Highest": "8",
+      "Distance": "2140",
+      "Start_Type": "2",
+      "Mare": false,
+      "Addition": false,
+      "First_Price": "1",
+      "predict": 0,
+      "predictApplicants": 2,
+      "predictApplicantsFemale": 1,
+      "id": 14
+    },
+    {
+      "Startsum_Lowest": "1000",
+      "Startsum_Highest": "01000000",
+      "Age_Lowest": "3",
+      "Age_Highest": "3",
+      "Distance": "2140",
+      "Start_Type": "1",
+      "Mare": false,
+      "Addition": false,
+      "First_Price": "3333",
+      "predict": 0,
+      "predictApplicants": 3,
+      "predictApplicantsFemale": 4,
+      "id": 15
+    },
+    {
+      "Startsum_Lowest": "0",
+      "Startsum_Highest": "1000000",
+      "Age_Lowest": "3",
+      "Age_Highest": "10",
+      "Distance": "2140",
+      "Start_Type": "2",
+      "Mare": true,
+      "Addition": false,
+      "First_Price": "70000",
+      "predict": 1,
+      "predictApplicants": 16,
+      "predictApplicantsFemale": 1,
+      "id": 16
+    }
+  ]
 }
