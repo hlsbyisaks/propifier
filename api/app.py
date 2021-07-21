@@ -2,10 +2,11 @@
 """
 Created on Wed Jun 30 09:08:39 2021
 
-@author: !axelh isak++
+@author: !axelh isak+
 """
 
 # Import libraries
+from re import M
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -15,7 +16,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from sqlalchemy.sql.selectable import Select
+from sqlalchemy import select, sql, text
 from models import db, model_props
 from models import db, model_horse
 import csv
@@ -35,15 +36,17 @@ migrate = Migrate(app, db)
 @cross_origin()
 def gethorsedata():
     _json = request.json
-    
-    output = model_horse.query.all()
-    for res in output:
-        if res.startsumma > _json['Startsum_Low'] and res.startsumma < _json['Startsum_High'] and res.ålder > _json['Age_Low'] and res.ålder < _json['Age_High'] and res.kön == 's' and _json['Gender'] == 1:
-            print(res)
-        elif res.startsumma > _json['Startsum_Low'] and res.startsumma < _json['Startsum_High'] and res.ålder > _json['Age_Low'] and res.ålder < _json['Age_High'] and _json['Gender'] == 0 and res.kön == 'v' or res.kön == 'h':
-            print(res)
-    
-    return 'Done getting horses'
+
+    if _json['Mare'] == False:
+        output = db.session.query(model_horse).from_statement(
+            text("""SELECT * FROM horse WHERE startsumma >= :startsum_low AND startsumma <= :startsum_high AND ålder >= :age_low AND ålder <= :age_high AND (kön = 'v' OR kön = 'h')""")
+        ).params(startsum_low=_json['Startsum_Lowest'], startsum_high=_json['Startsum_Highest'], age_low=_json['Age_Lowest'], age_high=_json['Age_Highest'], gender=_json['Mare']).all()
+    elif _json['Mare'] == True:
+        output = db.session.query(model_horse).from_statement(
+            text("""SELECT * FROM horse WHERE startsumma >= :startsum_low AND startsumma <= :startsum_high AND ålder >= :age_low AND ålder <= :age_high AND kön = 's'""")
+        ).params(startsum_low=_json['Startsum_Lowest'], startsum_high=_json['Startsum_Highest'], age_low=_json['Age_Lowest'], age_high=_json['Age_Highest'], gender=_json['Mare']).all()
+            
+    return jsonify ({'horses' : list(map(str, output))})
 
 #Load db
 @app.route('/getdbdata', methods = ['GET'])
@@ -74,6 +77,17 @@ def predictapplicants():
     json_ = request.json
     query = pd.DataFrame(json_)
     prediction = decision_tree.predict(query)
+    print(prediction)
+      
+    return jsonify ({'prediction' : list(map(int, prediction))})
+
+#Predict applicants Female
+@app.route('/predictApplicantsFemale', methods = ['POST'])
+@cross_origin()
+def predictapplicantsfemale():
+    json_ = request.json
+    query = pd.DataFrame(json_)
+    prediction = decision_tree_Female.predict(query)
     print(prediction)
       
     return jsonify ({'prediction' : list(map(int, prediction))})
@@ -130,4 +144,5 @@ def update():
 if __name__ == '__main__':
     classifier = joblib.load('model.pkl')
     decision_tree = joblib.load('RegressorModel.pkl')
+    decision_tree_Female = joblib.load('RegressorModelFemale.pkl')
     app.run(host= 'localhost', port = 4000, debug = True)
