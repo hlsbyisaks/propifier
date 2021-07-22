@@ -1,15 +1,31 @@
 import React from 'react'
+import Popup from './Popup'
 
 // Horse list single item
 const PopupItem = ({ horse }) => {
+    let trainersFemale = []
+    let trainersMale = []
+
+    horse.map((hors) => (
+        hors[6] == 1 ? trainersFemale.push(hors) : trainersMale.push(hors)
+    ))
+
+
     return (
-        <>
-        <ol>
-            {horse.map((hors, index) => (
-                <li>{index + 1}. Häst: {hors[1]} Prispengar: {hors[0]} Ålder: {hors[3]} Kön: {hors[4]} Tränare: {hors[5]} Tränarstatus: {hors[8]}</li>
-                ))}  
-        </ol>
-        </>
+        <div>
+            <ol>
+                <h3>Kvinnliga tränare: {trainersFemale.length}</h3>
+                {trainersFemale.map((hors, index) => (
+                    <li>{index + 1}. {hors[0]}:- {hors[1]} {hors[3]} år {hors[4] == 'v' ? 'Vallack' : hors[4] == 'h' ? 'Hingst' : 'Sto'} {hors[5]} {hors[8] == 1 ? 'A-Licens' : 'B-Licens'}</li>
+                ))}
+            </ol>
+            <ol>
+                <h3>Manliga tränare: {trainersMale.length}</h3>
+                {trainersMale.map((hors, index) => (
+                    <li>{index + 1}. {hors[0]}:- {hors[1]} {hors[3]} år {hors[4] == 'v' ? 'Vallack' : hors[4] == 'h' ? 'Hingst' : 'Sto'} {hors[5]} {hors[8] == 1 ? 'A-Licens' : 'B-Licens'}</li>
+                ))}
+            </ol>
+        </div>
     )
 }
 
