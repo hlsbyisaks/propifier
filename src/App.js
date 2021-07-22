@@ -3,12 +3,13 @@ import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 import SetThreshold from './components/SetThreshold'
 import Popup from './components/Popup'
+import DataSet from './components/DataSet'
 import { useState, useEffect } from "react"
 
 function App() {
   const [showAddTask, setShowAddTask] = useState(false)
   const [threshold, displayThreshold] = useState('11')
-  const [horseList, setHorseList] = useState(true)
+  const [showDataSet, setShowDataSet] = useState(false)
   const [tasks, setTasks] = useState([])
   const [horses, setHorses] = useState([])
 
@@ -30,10 +31,6 @@ function App() {
     data.horses.map((horse) => (
       horseSplit.push(horse.split(':'))
     ))
-    console.log(horseSplit)
-
-    //console.log(JSON.stringify(task))
-    //setHorses([data.horses])
     setHorses([horseSplit])
   }
 
@@ -151,16 +148,30 @@ function App() {
 
     const data = await res.json()
     displayThreshold(data.Antal)
-    console.log(data)
+  }
 
+  const addDataSet = async (input) => {
+    const res = await fetch('http://localhost:4000/updateDataSet', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(input)
+    })
+
+    const data = await res.json()
+    displayThreshold(data.Antal)
   }
 
   return (
     <div className="container">
       <div className='ill_horse' alt='horse illustration'></div>
-      <Header onAdd={() => setShowAddTask(!showAddTask)} showAdd={showAddTask}/>
+      <Header
+        onAdd={() => setShowAddTask(!showAddTask) & setShowDataSet(false)} showAdd={showAddTask}
+        onDataSet={() => setShowDataSet(!showDataSet) & setShowAddTask(false)} showDataSet={showDataSet}/>
       {showAddTask && <SetThreshold threshold={threshold} onSetApplicantThreshold={setApplicantThreshold} />}
       {showAddTask && <AddTask onAdd={addTask}/>}
+      {showDataSet && <DataSet onAdd={addDataSet}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} onShowHorses={fetchHorses}/> : 'Det finns inga propositioner att visa.'}
       {horses.length > 0 ? <Popup horses={horses} onSetHorses={setHorses} onShowHorses={fetchHorses}/> : ''}
     </div>

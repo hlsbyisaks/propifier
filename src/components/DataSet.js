@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // Form to add a new prop
-const AddTask = ({ onAdd }) => {
+const DataSet = ({ onAdd }) => {
     const [Startsum_Lowest, setStartsum_Lowest] = useState('')
     const [Startsum_Highest, setStartSumHigh] = useState('')
     const [Age_Lowest, setAgeLow] = useState('')
@@ -11,6 +11,8 @@ const AddTask = ({ onAdd }) => {
     const [Mare, setGenderHorse] = useState(false)
     const [Addition, setAddition] = useState(false)
     const [First_Price, setFirstPrice] = useState('')
+    const [Applicants, setApplicants] = useState('')
+    const [startingWomen, setStartingWomen] = useState('')
     
     const onSubmit = (e) => {
         e.preventDefault()
@@ -21,7 +23,7 @@ const AddTask = ({ onAdd }) => {
     
     return (
         <form id='add-form' className='add-form' onSubmit={onSubmit}>
-            <h3 style={{textAlign: 'Center'}}>Fyll i fält och skicka för att skapa en proposition</h3>
+            <h3 style={{textAlign: 'Center'}}>Fyll i fält och skicka för att uppdatera dataset</h3>
             <div>
                 <div>
                     <div className='form-control'>
@@ -40,29 +42,36 @@ const AddTask = ({ onAdd }) => {
                         <label>Ålder Högsta</label>
                         <input type='number' placeholder='' max='12' value={Age_Highest} required onChange={(e) => setAgeHigh(e.target.value)}/>
                     </div>
+                    <div className='form-control'>
+                        <label>Sträcka</label>
+                        <select name='Distance' placeholder='' value={Distance} required onChange={(e) => setDistance(e.target.value)}>
+                            <option value='1640'>1640m</option>
+                            <option value='2140'>2140m</option>
+                            <option value='2640'>2640m</option>
+                            <option value='3140'>3140m</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
-                <div className='form-control'>
-                    <label>Sträcka</label>
-                    <select name='Distance' placeholder='' value={Distance} required onChange={(e) => setDistance(e.target.value)}>
-                        <option value='1640'>1640m</option>
-                        <option value='2140'>2140m</option>
-                        <option value='2640'>2640m</option>
-                        <option value='3140'>3140m</option>
-                    </select>
-                </div>
                     <div className='form-control'>
                         <label>Starttyp</label>
                         <select name='Starttype' placeholder='' value={Start_Type} onChange={(e) => setStartType(e.target.value)}>
                             <option value='0'>Ospecificerat</option>
                             <option value='1'>Voltstart</option>
                             <option value='2'>Autostart</option>
-                            <option value='3' disabled={true}>Fransk Start</option>
                         </select>
                     </div>
                     <div className='form-control'>
                         <label>Förstapris</label>
                         <input type='number' placeholder='' value={First_Price} required onChange={(e) => setFirstPrice(e.target.value)} />
+                    </div>
+                    <div className='form-control'>
+                        <label>Antal Anmälda</label>
+                        <input type='number' placeholder='' value={Applicants} required onChange={(e) => setApplicants(e.target.value)} />
+                    </div>
+                    <div className='form-control'>
+                        <label>Kvinnliga Tränare till Start</label>
+                        <input type='number' placeholder='' value={startingWomen} required onChange={(e) => setStartingWomen(e.target.value)} />
                     </div>
                     <div className='form-control form-control-check'>
                         <label>Stolopp</label>
@@ -87,4 +96,4 @@ const AddTask = ({ onAdd }) => {
     )
 }
 
-export default AddTask
+export default DataSet

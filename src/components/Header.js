@@ -3,19 +3,20 @@ import Button from './Button'
 import { FaTrademark } from 'react-icons/fa'
 
 
-const Header = ({ title, onAdd, showAdd, onStats, showStats }) => {
+const Header = ({ onAdd, showAdd, onDataSet, showDataSet }) => {
     return (
         <header className='header'>
             <div className='logo'></div>
-            {/* <h1 className='font-effect-anaglyph'>
-                <div class="material-icons">model_training</div>
-                {title}
-                <FaTrademark className='tm'></FaTrademark>  
-            </h1> */}
-            <Button 
-            color={showAdd ? '#aa5763' : '#5886ac'} 
-            text={showAdd ? 'Stäng' : 'Lägg till'} 
-            onClick={ onAdd } />
+            <div>
+                <Button 
+                color={showDataSet ? '#aa5763' : '#5886ac'} 
+                text={showDataSet ? 'Stäng' : 'Dataset'} 
+                onClick={ onDataSet } />
+                <Button 
+                color={showAdd ? '#aa5763' : '#5886ac'} 
+                text={showAdd ? 'Stäng' : 'Lägg till'} 
+                onClick={ onAdd } />
+            </div>
         </header>
     )
 }

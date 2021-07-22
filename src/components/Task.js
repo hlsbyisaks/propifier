@@ -39,7 +39,7 @@ const Task = ({ task, onDelete, onToggle, onShowHorses }) => {
                 <ReactTooltip />
                 <p data-tip='Preliminärt antal kvinnor till start' data-type='info' data-effect='solid'>{ task.predictApplicantsFemale }</p>
                 <ReactTooltip />
-                <p data-tip='Grön = bra, röd = dålig. Baserat på antal anmälningar' data-type='info' data-effect='solid'>{ task.predict ? <BsCheck style ={{color: 'green'}}></BsCheck> : <BsCheck style ={{color: 'red'}}></BsCheck>}</p>
+                <p data-tip='Grön = bra, röd = dålig. Baserat på antal anmälningar' data-type='info' data-effect='solid'>{ task.predict ? <BsCheck size={24} style ={{color: 'green'}}></BsCheck> : <BsCheck size={24} style ={{color: 'red'}}></BsCheck>}</p>
                 <ReactTooltip />
                     
             </div>

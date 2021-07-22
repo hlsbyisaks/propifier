@@ -29,6 +29,11 @@ body {
   color: var(--font_color);
   background-image: url(./images/Repeating-Triangles.svg);
   background-image: url(./images/Pattern-Randomized.svg);
+  background-image: url(./images/image001.jpg);
+  background-image: url(./images/Liquid-Cheese.svg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
@@ -59,15 +64,11 @@ h1 {
 
 .header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding-left: 78px;
+  padding-left: 35%;
   margin-top: -100px;
-}
-
-.header > .btn {
-  flex-grow: 0;
 }
 
 .btn:focus {
@@ -207,7 +208,7 @@ footer {
   border: none;
   padding: 10px 20px;
   margin: 5px 20px;
-  border-radius: 30px;
+  border-radius: 5px;
   cursor: pointer;
   text-decoration: none;
   font-size: 15px;
@@ -215,9 +216,23 @@ footer {
   min-width: 94px;
 }
 
+.header > div> .btn {
+  flex-grow: 0;
+  margin: 5px 5px;
+}
+
+.header > div {
+  margin-right: 20px;
+}
+
 .tm {
   width: 0.4em;
   height: 0.4em;
+}
+
+.checkSvg {
+  height: 1.5em;
+  width: 1.5em;
 }
 
 .popupContainer {
