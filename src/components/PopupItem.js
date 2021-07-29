@@ -1,5 +1,4 @@
 import React from 'react'
-import Popup from './Popup'
 
 // Horse list single item
 const PopupItem = ({ horse }) => {

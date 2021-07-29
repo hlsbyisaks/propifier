@@ -2,9 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
  
 db = SQLAlchemy()
  
-class model_props(db.Model):
+""" class model_props(db.Model):
     __tablename__ = 'model1'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     startsum_low = db.Column(db.Integer)
     startsum_high = db.Column(db.Integer)
     age_low = db.Column(db.Integer)
@@ -12,12 +12,12 @@ class model_props(db.Model):
     distance = db.Column(db.Integer)
     starttype = db.Column(db.Integer)
     gender = db.Column(db.Integer)
-    addition = db.Column(db.Integer)
     applicants = db.Column(db.Integer)
+    addition = db.Column(db.Integer)
     first_price = db.Column(db.Integer)
     good_prop = db.Column(db.Integer)
  
-    def __init__(self, startsum_low, startsum_high, age_low, age_high, distance, starttype, gender, addition, applicants, first_price, good_prop):
+    def __init__(self, startsum_low, startsum_high, age_low, age_high, distance, starttype, gender, applicants, addition, first_price, good_prop):
         self.startsum_low = startsum_low
         self.startsum_high = startsum_high
         self.age_low = age_low
@@ -25,13 +25,48 @@ class model_props(db.Model):
         self.distance = distance
         self.starttype = starttype
         self.gender = gender
-        self.addition = addition
         self.applicants = applicants
+        self.addition = addition
         self.first_price = first_price
         self.good_prop = good_prop
  
     def __repr__(self):
-        return f"{self.startsum_low}:{self.startsum_high}:{self.age_low}:{self.age_high}:{self.distance}:{self.starttype}:{self.gender}:{self.addition}:{self.applicants}:{self.first_price}:{self.good_prop}"
+        return f"{self.startsum_low}:{self.startsum_high}:{self.age_low}:{self.age_high}:{self.distance}:{self.starttype}:{self.gender}:{self.applicants}:{self.addition}:{self.first_price}:{self.good_prop}" """
+
+class model_props(db.Model):
+    __tablename__ = 'model2'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    startsum_low = db.Column(db.Integer)
+    startsum_high = db.Column(db.Integer)
+    age_low = db.Column(db.Integer)
+    age_high = db.Column(db.Integer)
+    distance = db.Column(db.Integer)
+    starttype = db.Column(db.Integer)
+    gender = db.Column(db.Integer)
+    applicants = db.Column(db.Integer)
+    addition = db.Column(db.Integer)
+    first_price = db.Column(db.Integer)
+    good_prop = db.Column(db.Integer)
+    starting_total = db.Column(db.Integer)
+    starting_women = db.Column(db.Integer)
+ 
+    def __init__(self, startsum_low, startsum_high, age_low, age_high, distance, starttype, gender, applicants, addition, first_price, good_prop, starting_total, starting_women):
+        self.startsum_low = startsum_low
+        self.startsum_high = startsum_high
+        self.age_low = age_low
+        self.age_high = age_high
+        self.distance = distance
+        self.starttype = starttype
+        self.gender = gender
+        self.applicants = applicants
+        self.addition = addition
+        self.first_price = first_price
+        self.good_prop = good_prop
+        self.starting_total = starting_total
+        self.starting_women = starting_women
+ 
+    def __repr__(self):
+        return f"{self.startsum_low}:{self.startsum_high}:{self.age_low}:{self.age_high}:{self.distance}:{self.starttype}:{self.gender}:{self.applicants}:{self.addition}:{self.first_price}:{self.good_prop}:{self.starting_total}:{self.starting_women}"
 
 class model_horse(db.Model):
     __tablename__ = 'horse'

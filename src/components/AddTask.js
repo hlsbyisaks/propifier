@@ -1,4 +1,5 @@
 import { useState } from 'react'
+//import { SelectButton } from 'primereact/selectbutton';
 
 // Form to add a new prop
 const AddTask = ({ onAdd }) => {
@@ -80,6 +81,7 @@ const AddTask = ({ onAdd }) => {
                         value={Addition} 
                         onChange={(e) => setAddition(e.currentTarget.checked)}/>
                     </div>
+                    {/* <SelectButton optionLabel="Stolopp" optionValue="code" value={Mare} onChange={(e) => setValue(e.value)}></SelectButton> */}
                 </div>
             </div>
             <input className ='btn btn-block' type='submit' value='Skicka'></input>

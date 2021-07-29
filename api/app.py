@@ -20,6 +20,9 @@ from sqlalchemy import select, sql, text
 from models import db, model_props
 from models import db, model_horse
 import csv
+from RFClassifier import rfclassifier
+from DecisionTreeRegressor import applicantpredictions
+from RegressorFemale import femaleregressor
 
 app = Flask(__name__)
 CORS(app)
@@ -30,6 +33,29 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
  
 db.init_app(app)
 migrate = Migrate(app, db)
+
+#Update Dataset
+@app.route('/updateDataSet', methods = ['POST'])
+@cross_origin()
+def updatedataset():
+    _json = request.json
+    print(_json)
+    if int(_json['Applicants']) <= 11:
+        _json['Good_Prop'] = 1
+    else:
+        _json['Good_Prop'] = 0   
+
+    #Create query
+    query = db.insert(model_props).values(startsum_low=_json['Startsum_Lowest'], startsum_high=_json['Startsum_Highest'], age_low=_json['Age_Lowest'], age_high=_json['Age_Highest'], distance=_json['Distance'], starttype=_json['Start_Type'], gender=_json['Mare'], applicants=_json['Applicants'], addition=_json['Addition'], first_price=_json['First_Price'], good_prop=_json['Good_Prop'], starting_total=_json['Starting_Total'], starting_women=_json['Starting_Women'])
+    
+    #Execute query
+    db.session.execute(query)
+    db.session.commit()
+    print(query)
+    
+    #Retrain models with updated dataset
+
+    return jsonify ({'response': 'Success: Prop uploaded to database'})
 
 #Load horses from db
 @app.route('/gethorsedata', methods = ['POST'])
@@ -52,12 +78,34 @@ def gethorsedata():
 @app.route('/getdbdata', methods = ['GET'])
 @cross_origin()
 def getdata(): 
+    #Get all props from db
     output = model_props.query.all()
+
+    #Write props to csv 'out.csv'
     writer = csv.writer(open("out.csv", 'w'))
     for res in output:
         writer.writerow([res])
 
-    return 'Done writing csv'
+    return 'Success: Done writing csv'
+
+#Retrain Models
+@app.route('/retrainModel', methods = ['GET'])
+@cross_origin()
+def retrainmodel(): 
+    csv = pd.read_csv('out.csv',header = None, sep = ":", index_col = None)
+    csv.columns = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']
+
+    for i in range(len(csv)) :
+        if csv.loc[i, 'Applicants'] >= 11 :
+            csv.loc[i, 'Good_Prop'] = 1
+        else : csv.loc[i, 'Good_Prop'] = 0
+    csv2 = csv[['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']]
+    csv2.to_csv('PropData.csv', header = False, index=False)
+    femaleregressor()
+    applicantpredictions()
+    rfclassifier()
+
+    return jsonify ({'response' : 'Success: Model Retrained'})
 
 #Good/bad prop classifier
 @app.route('/predict', methods = ['POST'])
@@ -101,46 +149,19 @@ def update():
     print('New threshold: ', threshold)
     
     csv = pd.read_csv('out.csv',header = None, sep = ":", index_col = None)
-    csv.columns = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop']
+    csv.columns = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']
 
     for i in range(len(csv)) :
         if csv.loc[i, 'Applicants'] >= threshold :
             csv.loc[i, 'Good_Prop'] = 1
         else : csv.loc[i, 'Good_Prop'] = 0
-    csv2 = csv[['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare','Addition', 'First_Price', 'Good_Prop']]
+    csv2 = csv[['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']]
     csv2.to_csv('PropData.csv', header = False, index=False)
 
+    rfclassifier()
 
-    # Re-train model
-    col_names = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Addition', 'First_Price', 'Good_Prop']
-    props = pd.read_csv('PropData.csv', header=None, names=col_names)
-
-    props['Startsum_Highest'].astype(str).astype(float)
-    props['Age_Highest'].astype(str).astype(int)
-
-    # Remove null and NaN
-    props = props.dropna()
-    props.isnull().sum().sum()
-
-    # Define features and target
-    feature_cols = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Addition', 'First_Price']
-    X = props[feature_cols] #Feature variables
-    y = props.Good_Prop # The Target variable
-
-    # Split train and test data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=1) # 90% training and 10% test
-
-    # Construct the classifier with entropy
-    classifier = RandomForestClassifier(n_estimators = 80, criterion='entropy')
-    classifier = classifier.fit(X_train, y_train)
-    y_pred = classifier.predict(X_test)
-
-    # Print accuracy
-    print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
-
-    joblib.dump(classifier, 'model.pkl')
     return jsonify({'Antal' : threshold})
-
+ 
 if __name__ == '__main__':
     classifier = joblib.load('model.pkl')
     decision_tree = joblib.load('RegressorModel.pkl')

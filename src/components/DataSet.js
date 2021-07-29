@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 // Form to add a new prop
-const DataSet = ({ onAdd }) => {
+const DataSet = ({ onAdd, onSuccess, retrainModel, onTrain }) => {
     const [Startsum_Lowest, setStartsum_Lowest] = useState('')
     const [Startsum_Highest, setStartSumHigh] = useState('')
     const [Age_Lowest, setAgeLow] = useState('')
@@ -12,13 +12,14 @@ const DataSet = ({ onAdd }) => {
     const [Addition, setAddition] = useState(false)
     const [First_Price, setFirstPrice] = useState('')
     const [Applicants, setApplicants] = useState('')
-    const [startingWomen, setStartingWomen] = useState('')
-    
+    const [Starting_Total, setStartingTotal] = useState('')
+    const [Starting_Women, setStartingWomen] = useState('')
+
     const onSubmit = (e) => {
         e.preventDefault()
 
         onAdd ({ Startsum_Lowest, Startsum_Highest, Age_Lowest, Age_Highest, Distance, Start_Type, 
-            Mare, Addition, First_Price })
+            Mare, Addition, First_Price, Applicants, Starting_Total, Starting_Women })
     }
     
     return (
@@ -70,8 +71,12 @@ const DataSet = ({ onAdd }) => {
                         <input type='number' placeholder='' value={Applicants} required onChange={(e) => setApplicants(e.target.value)} />
                     </div>
                     <div className='form-control'>
+                        <label>Antal startande</label>
+                        <input type='number' placeholder='' value={Starting_Total} required onChange={(e) => setStartingTotal(e.target.value)} />
+                    </div>
+                    <div className='form-control'>
                         <label>Kvinnliga Tränare till Start</label>
-                        <input type='number' placeholder='' value={startingWomen} required onChange={(e) => setStartingWomen(e.target.value)} />
+                        <input type='number' placeholder='' value={Starting_Women} required onChange={(e) => setStartingWomen(e.target.value)} />
                     </div>
                     <div className='form-control form-control-check'>
                         <label>Stolopp</label>
@@ -92,6 +97,9 @@ const DataSet = ({ onAdd }) => {
                 </div>
             </div>
             <input className ='btn btn-block' type='submit' value='Skicka'></input>
+            <input className ='btn btn-block' id='retrainBtn' type='button' value='Träna Propifier' onClick={retrainModel}></input>
+            {onSuccess && <span>Uppladdningen lyckades</span>}
+            {onTrain && <span>Propifier uppdaterad</span>}
         </form>
     )
 }

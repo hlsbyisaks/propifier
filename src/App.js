@@ -12,7 +12,13 @@ function App() {
   const [showDataSet, setShowDataSet] = useState(false)
   const [tasks, setTasks] = useState([])
   const [horses, setHorses] = useState([])
+  const [successMsg, setSuccessMsg] = useState(false)
+  const [onTrain, setOnTrain] = useState(false)
 
+
+  const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
 
   // Fetch suitable horses
   const fetchHorses = async (id) => {
@@ -40,6 +46,9 @@ function App() {
       setTasks(tasksFromServer)
     }
     getTasks()
+    setApplicantThreshold('11')
+    sleep(200)
+    retrainModel()
   }, [])
 
   // Fetch Tasks
@@ -133,7 +142,6 @@ function App() {
     //Get data from DB
     const resDB = await fetch('http://localhost:4000/getdbdata')
     const dataDB = await resDB
-    console.log(dataDB)
     
     //Update model with new applicant threshold
     console.log(JSON.stringify(input))
@@ -150,7 +158,11 @@ function App() {
     displayThreshold(data.Antal)
   }
 
+  //Add prop to DB
   const addDataSet = async (input) => {
+    input['Mare'] = input['Mare'] ? '1' : '0'
+    input['Addition'] = input['Addition'] ? '1' : '0'
+    console.log(input)
     const res = await fetch('http://localhost:4000/updateDataSet', {
       method: 'POST',
       headers: {
@@ -159,8 +171,28 @@ function App() {
       body: JSON.stringify(input)
     })
 
+    const resDB = await fetch('http://localhost:4000/getdbdata')
+    const dataDB = await resDB
+
     const data = await res.json()
-    displayThreshold(data.Antal)
+    if (data) {
+      setSuccessMsg(true)
+      setTimeout(() => {
+        setSuccessMsg(false)
+      }, 3000)
+    } 
+  }
+
+  const retrainModel = async () => {
+    const res = await fetch('http://localhost:4000/retrainModel')
+    const data = await res.json()
+    console.log(data.response)
+    if (data) {
+      setOnTrain(true)
+      setTimeout(() => {
+        setOnTrain(false)
+      }, 3000)
+    }
   }
 
   return (
@@ -171,7 +203,7 @@ function App() {
         onDataSet={() => setShowDataSet(!showDataSet) & setShowAddTask(false)} showDataSet={showDataSet}/>
       {showAddTask && <SetThreshold threshold={threshold} onSetApplicantThreshold={setApplicantThreshold} />}
       {showAddTask && <AddTask onAdd={addTask}/>}
-      {showDataSet && <DataSet onAdd={addDataSet}/>}
+      {showDataSet && <DataSet onAdd={addDataSet} onSuccess={successMsg} retrainModel={retrainModel} onTrain={onTrain}/>}
       {tasks.length > 0 ? <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} onShowHorses={fetchHorses}/> : 'Det finns inga propositioner att visa.'}
       {horses.length > 0 ? <Popup horses={horses} onSetHorses={setHorses} onShowHorses={fetchHorses}/> : ''}
     </div>
