@@ -5,7 +5,7 @@ import { RiFileList2Line } from 'react-icons/ri'
 import ReactTooltip from 'react-tooltip'
 
 // Single task component
-const Task = ({ task, onDelete, onToggle, onShowHorses }) => {
+const Task = ({ key, task, onDelete, onToggle, onShowHorses,id }) => {
 
     var Start_Type
     if (task.Start_Type == '0') {
@@ -17,11 +17,11 @@ const Task = ({ task, onDelete, onToggle, onShowHorses }) => {
     } 
     const tempDate = new Date()
     const [year, month, day] = [tempDate.getFullYear(), tempDate.getMonth()+1, tempDate.getDate()];
-
+    console.log("KEYY", key, id)
     return (
         <div className={`task ${task.reminder ?
         'reminder' : ''}`} onDoubleClick={() => onToggle(task.id)}>
-            <h3><div><RiFileList2Line data-tip='Lista lämpliga hästar' data-type='info' data-effect='solid' onClick={() => onShowHorses(task.id)} style ={{marginRight: '5px', marginBottom: '-3px', color: 'rgb(104, 111, 109)', cursor: 'pointer'}}/>Proposition #{task.id} {year + "-" + month + "-" + day}</div><FaTimes onClick={() => onDelete(task.id)} style ={{color: 'rgb(104, 111, 109)', cursor: 'pointer'}}/></h3>
+            <h3><div><RiFileList2Line data-tip='Lista lämpliga hästar' data-type='info' data-effect='solid' onClick={() => onShowHorses(task.id)} style ={{marginRight: '5px', marginBottom: '-3px', color: 'rgb(104, 111, 109)', cursor: 'pointer'}}/>Proposition #{task.id} {year + "-" + month + "-" + day}</div><FaTimes onClick={() => onDelete(id)} style ={{color: 'rgb(104, 111, 109)', cursor: 'pointer'}}/></h3>
             <ReactTooltip />
             <div>
                 

@@ -14,7 +14,7 @@ from sklearn.metrics import mean_squared_error
 def femaleregressor():
     col_names = ['Startsum_Lowest','Startsum_Highest','Age_Lowest','Age_Highest','Distance','Start_type','Mare','Applicants',
                  'Addition','First_Price','Good_Prop','Starting','Women']
-    props = pd.read_csv('PropData.csv', header=None, names=col_names)
+    props = pd.read_csv('/tmp/PropData.csv', header=None, names=col_names)
     
     props = props.dropna()
     props.isnull().sum().sum()
@@ -28,7 +28,7 @@ def femaleregressor():
     decision_tree = DecisionTreeRegressor()
     decision_tree = decision_tree.fit(X_train, y_train)
     
-    joblib.dump(decision_tree, 'RegressorModelFemale.pkl')
+    joblib.dump(decision_tree, '/tmp/RegressorModelFemale.pkl')
     y_pred = decision_tree.predict(X_test)
     print('Female regressor:', mean_squared_error(y_test, y_pred))
     return

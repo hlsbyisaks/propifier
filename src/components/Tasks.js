@@ -4,8 +4,8 @@ import Task from './Task'
 const Tasks = ({ tasks, onDelete, onToggle, onShowHorses }) => {
     return (
         <>
-          {tasks.map((task) => (
-            <Task key={task.id} task={task} onDelete={onDelete} onToggle={onToggle} onShowHorses={onShowHorses} />
+          {tasks.map((task, i) => (
+            <Task key={i} id={i} task={task} onDelete={onDelete} onToggle={onToggle} onShowHorses={onShowHorses} />
           ))}  
         </>
     )

@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score
 def rfclassifier():
     # Re-train model
     col_names = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting', 'Starting_Women']
-    props = pd.read_csv('PropData.csv', header=None, names=col_names)
+    props = pd.read_csv('/tmp/PropData.csv', header=None, names=col_names)
     
     props['Startsum_Highest'].astype(str).astype(float)
     props['Age_Highest'].astype(str).astype(int)
@@ -44,5 +44,5 @@ def rfclassifier():
     # Print accuracy
     print("Accuracy:", accuracy_score(y_test, y_pred))
 
-    joblib.dump(classifier, 'model.pkl')
+    joblib.dump(classifier, '/tmp/model.pkl')
     return

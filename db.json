@@ -29,6 +29,21 @@
       "predictApplicants": 17,
       "predictApplicantsFemale": 1,
       "id": 2
+    },
+    {
+      "Startsum_Lowest": "1000",
+      "Startsum_Highest": "3000",
+      "Age_Lowest": "4",
+      "Age_Highest": "7",
+      "Distance": "2140",
+      "Start_Type": "1",
+      "Mare": false,
+      "Addition": false,
+      "First_Price": "3",
+      "predict": 0,
+      "predictApplicants": 4,
+      "predictApplicantsFemale": 0,
+      "id": 3
     }
   ]
 }

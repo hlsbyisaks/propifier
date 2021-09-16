@@ -14,6 +14,7 @@ function App() {
   const [horses, setHorses] = useState([])
   const [successMsg, setSuccessMsg] = useState(false)
   const [onTrain, setOnTrain] = useState(false)
+  
 
 
   const sleep = (milliseconds) => {
@@ -25,7 +26,7 @@ function App() {
 
     const res1 = await fetchTask(id)
 
-    const res = await fetch('http://localhost:4000/gethorsedata', {
+    const res = await fetch('https://aakermount.appspot.com/gethorsedata', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -46,35 +47,34 @@ function App() {
       setTasks(tasksFromServer)
     }
     getTasks()
-    setApplicantThreshold('11')
+    setApplicantThreshold({Applicant_Threshold:'11'})
     sleep(200)
     retrainModel()
   }, [])
 
   // Fetch Tasks
   const fetchTasks = async () => {
-    const res = await fetch('/Tasks')
-    const data = await res.json()
+    // const res = await fetch('/Tasks')
+    // const data = await res.json()
 
-    return data
+    // return data
+    return tasks;
   }
 
   // Fetch Task
   const fetchTask = async (id) => {
-    const res = await fetch(`/Tasks/${id}`)
-    const data = await res.json()
-    console.log(data)
-    return data
+    //Möjligt fel
+    return tasks[id]
   }
 
   //Add Task
   const addTask = async (task) => {
     
-
+    console.log("This is the task object", task)
     let resArr = []
     resArr.push(task)
 
-    const resCheckProp = await fetch('http://localhost:4000/predict', {
+    const resCheckProp = await fetch('https://aakermount.appspot.com/predict', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -82,7 +82,7 @@ function App() {
       body: JSON.stringify(resArr)
     })
 
-    const resApplicants = await fetch('http://localhost:4000/predictApplicants', {
+    const resApplicants = await fetch('https://aakermount.appspot.com/predictApplicants', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -90,7 +90,7 @@ function App() {
       body: JSON.stringify(resArr)
     })
 
-    const resApplicantsFemale = await fetch('http://localhost:4000/predictApplicantsFemale', {
+    const resApplicantsFemale = await fetch('https://aakermount.appspot.com/predictApplicantsFemale', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -106,26 +106,16 @@ function App() {
     data['predictApplicants'] = dataApplicants.prediction[0]
     data['predictApplicantsFemale'] = dataApplicantsFemale.prediction[0]
 
-    const res = await fetch('/Tasks', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    })
-
-    data = await res.json()
-
+    console.log("tasks after add", [data, ...tasks])
     setTasks([data, ...tasks])
   }
 
   //Delete Task
   const deleteTask = async (id) => {
-    await fetch(`/Tasks/${id}`, {
-      method: 'DELETE'
-    })
-
-    setTasks(tasks.filter((task) => task.id !== id))
+    const t = JSON.parse(JSON.stringify(tasks))
+    t.splice(id, 1)
+    
+    setTasks(t)
   }
 
   //Toggle Reminder
@@ -140,13 +130,13 @@ function App() {
   //Update Applicant Threshold
   const setApplicantThreshold = async (input) => {
     //Get data from DB
-    const resDB = await fetch('http://localhost:4000/getdbdata')
+    const resDB = await fetch('https://aakermount.appspot.com/getdbdata')
     const dataDB = await resDB
     
     //Update model with new applicant threshold
     console.log(JSON.stringify(input))
 
-    const res = await fetch('http://localhost:4000/update', {
+    const res = await fetch('https://aakermount.appspot.com/update', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -163,7 +153,7 @@ function App() {
     input['Mare'] = input['Mare'] ? '1' : '0'
     input['Addition'] = input['Addition'] ? '1' : '0'
     console.log(input)
-    const res = await fetch('http://localhost:4000/updateDataSet', {
+    const res = await fetch('https://aakermount.appspot.com/updateDataSet', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
@@ -171,7 +161,7 @@ function App() {
       body: JSON.stringify(input)
     })
 
-    const resDB = await fetch('http://localhost:4000/getdbdata')
+    const resDB = await fetch('https://aakermount.appspot.com/getdbdata')
     const dataDB = await resDB
 
     const data = await res.json()
@@ -184,7 +174,7 @@ function App() {
   }
 
   const retrainModel = async () => {
-    const res = await fetch('http://localhost:4000/retrainModel')
+    const res = await fetch('https://aakermount.appspot.com/retrainModel')
     const data = await res.json()
     console.log(data.response)
     if (data) {

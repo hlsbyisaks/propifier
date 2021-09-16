@@ -28,7 +28,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:Yussuf10@localhost:5432/ModelData"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:B69xww5gHaD5y0ff@34.88.45.88:5432/postgres"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
  
 db.init_app(app)
@@ -82,7 +82,7 @@ def getdata():
     output = model_props.query.all()
 
     #Write props to csv 'out.csv'
-    writer = csv.writer(open("out.csv", 'w'))
+    writer = csv.writer(open("/tmp/out.csv", 'w'))
     for res in output:
         writer.writerow([res])
 
@@ -92,7 +92,7 @@ def getdata():
 @app.route('/retrainModel', methods = ['GET'])
 @cross_origin()
 def retrainmodel(): 
-    csv = pd.read_csv('out.csv',header = None, sep = ":", index_col = None)
+    csv = pd.read_csv('/tmp/out.csv',header = None, sep = ":", index_col = None)
     csv.columns = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']
 
     for i in range(len(csv)) :
@@ -100,7 +100,7 @@ def retrainmodel():
             csv.loc[i, 'Good_Prop'] = 1
         else : csv.loc[i, 'Good_Prop'] = 0
     csv2 = csv[['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']]
-    csv2.to_csv('PropData.csv', header = False, index=False)
+    csv2.to_csv('/tmp/PropData.csv', header = False, index=False)
     femaleregressor()
     applicantpredictions()
     rfclassifier()
@@ -111,6 +111,7 @@ def retrainmodel():
 @app.route('/predict', methods = ['POST'])
 @cross_origin()
 def predict():
+    classifier = joblib.load('/tmp/model.pkl')
     json_ = request.json
     query = pd.DataFrame(json_)
     prediction = classifier.predict(query)
@@ -124,6 +125,7 @@ def predict():
 def predictapplicants():
     json_ = request.json
     query = pd.DataFrame(json_)
+    decision_tree = joblib.load('/tmp/RegressorModel.pkl')
     prediction = decision_tree.predict(query)
     print(prediction)
       
@@ -135,6 +137,7 @@ def predictapplicants():
 def predictapplicantsfemale():
     json_ = request.json
     query = pd.DataFrame(json_)
+    decision_tree_Female = joblib.load('/tmp/RegressorModelFemale.pkl')
     prediction = decision_tree_Female.predict(query)
     print(prediction)
       
@@ -148,7 +151,7 @@ def update():
     threshold = int(threshold['Applicant_Threshold'])
     print('New threshold: ', threshold)
     
-    csv = pd.read_csv('out.csv',header = None, sep = ":", index_col = None)
+    csv = pd.read_csv('/tmp/out.csv',header = None, sep = ":", index_col = None)
     csv.columns = ['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']
 
     for i in range(len(csv)) :
@@ -156,14 +159,14 @@ def update():
             csv.loc[i, 'Good_Prop'] = 1
         else : csv.loc[i, 'Good_Prop'] = 0
     csv2 = csv[['Startsum_Lowest', 'Startsum_Highest','Age_Lowest', 'Age_Highest', 'Distance', 'Start_type', 'Mare', 'Applicants', 'Addition', 'First_Price', 'Good_Prop', 'Starting_Total', 'Starting_Women']]
-    csv2.to_csv('PropData.csv', header = False, index=False)
+    csv2.to_csv('/tmp/PropData.csv', header = False, index=False)
 
     rfclassifier()
 
     return jsonify({'Antal' : threshold})
  
 if __name__ == '__main__':
-    classifier = joblib.load('model.pkl')
-    decision_tree = joblib.load('RegressorModel.pkl')
-    decision_tree_Female = joblib.load('RegressorModelFemale.pkl')
-    app.run(host= 'localhost', port = 4000, debug = True)
+    classifier = joblib.load('/tmp/model.pkl')
+    decision_tree = joblib.load('/tmp/RegressorModel.pkl')
+    decision_tree_Female = joblib.load('/tmp/RegressorModelFemale.pkl')
+    app.run(host= 'localhost', port = 8080, debug = True)
