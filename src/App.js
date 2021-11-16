@@ -41,15 +41,15 @@ function App() {
     setHorses([horseSplit])
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks()
       setTasks(tasksFromServer)
     }
     getTasks()
-    setApplicantThreshold({Applicant_Threshold:'11'})
+    await setApplicantThreshold({Applicant_Threshold:'11'})
     sleep(200)
-    retrainModel()
+    await retrainModel()
   }, [])
 
   // Fetch Tasks
