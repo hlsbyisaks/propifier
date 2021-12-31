@@ -5,7 +5,7 @@ Classify and predict outcomes of your trotting races TODAY!
 ## Vad är Propifier?
 
 ### Propifier
-Ett verktyg för att skapa, analysera och planera propositioner. 
+Ett verktyg för att skapa, analysera och planera propositioner genom att fylla formulär
 
 ### Maskininlärning
 Verktyget använder maskininlärning för att presentera underlag för att analysera propositionernas kvalitet.
